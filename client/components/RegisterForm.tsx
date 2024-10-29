@@ -16,19 +16,20 @@ import { useState } from "react";
 import axiosInstance from "../lib/axiosInstance";
 import { useRouter } from "next/navigation";
 
-export const LoginForm = () => {
+export const RegisterForm = () => {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      const response = await axiosInstance.post("/users/login", {
+      const response = await axiosInstance.post("/users/signup", {
+        email,
         username,
         password,
       });
@@ -43,12 +44,22 @@ export const LoginForm = () => {
 
   return (
     <Card>
-      <form onSubmit={handleLogin}>
+      <form onSubmit={handleRegister}>
         <CardHeader>
-          <CardTitle>Login</CardTitle>
-          <CardDescription>Enter your login details</CardDescription>
+          <CardTitle>Register</CardTitle>
+          <CardDescription>Enter your registration details</CardDescription>
         </CardHeader>
         <CardContent>
+          <div className="gap-1">
+            <Label htmlFor="email">Email adress</Label>
+            <Input
+              id="email"
+              defaultValue=""
+              placeholder="your@mail.test"
+              disabled={loading}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
           <div className="gap-1">
             <Label htmlFor="username">Username</Label>
             <Input
@@ -79,7 +90,7 @@ export const LoginForm = () => {
             </Button>
           ) : (
             <Button className="w-full" type="submit">
-              Login
+              Create an account
             </Button>
           )}
         </CardFooter>
