@@ -13,6 +13,10 @@ import {
   SidebarFooter,
   SidebarSeparator,
 } from "@/components/ui/sidebar";
+import { Button } from "@/components/ui/button";
+import axiosInstance from "../lib/axiosInstance";
+import { useRouter } from "next/navigation";
+import { cp } from "fs";
 
 // Menu items.
 const items = [
@@ -44,6 +48,17 @@ const items = [
 ];
 
 export function AppSidebar() {
+  const router = useRouter();
+
+  const signout = async () => {
+    try {
+      await axiosInstance.post("/users/logout");
+      router.push("/");
+    } catch (error) {
+      console.error("Erreur lors de la déconnexion:", error);
+    }
+  };
+
   return (
     <Sidebar>
       <SidebarContent>
@@ -64,6 +79,21 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+        <SidebarSeparator />
+        <SidebarGroup>
+          <SidebarGroupLabel>Account</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <Button onClick={signout}>Sign out</Button>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+        <SidebarSeparator />
+        <SidebarFooter>
+          <p>© 2021 Example Inc.</p>
+        </SidebarFooter>
       </SidebarContent>
     </Sidebar>
   );

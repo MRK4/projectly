@@ -17,7 +17,6 @@ import axiosInstance from "../lib/axiosInstance";
 import { useRouter } from "next/navigation";
 
 export const LoginForm = () => {
-  const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -48,7 +47,7 @@ export const LoginForm = () => {
           <CardTitle>Login</CardTitle>
           <CardDescription>Enter your login details</CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="flex flex-col gap-1">
           <div className="gap-1">
             <Label htmlFor="username">Username</Label>
             <Input

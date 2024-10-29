@@ -1,7 +1,5 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import axiosInstance from "../../lib/axiosInstance";
 import {
   Card,
   CardContent,
@@ -12,30 +10,10 @@ import {
 } from "@/components/ui/card";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/Sidebar";
-import { User } from "@/types/user";
+import { useUser } from "@/context/UserContext";
 
 export default function DashboardPage() {
-  const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState<User | null>(null); // Type `User` ou `null` si pas encore chargé
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      setLoading(true);
-      try {
-        const response = await axiosInstance.get<User>("/users/me");
-        setUser(response.data); // Type de `response.data` est automatiquement inféré comme `User`
-      } catch (error) {
-        console.error(
-          "Erreur lors de la récupération de l'utilisateur:",
-          error
-        );
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUser();
-  }, []);
+  const { user, loading } = useUser();
 
   return (
     <SidebarProvider>
@@ -58,7 +36,7 @@ export default function DashboardPage() {
                   </p>
                 </>
               ) : (
-                "Utilisateur non trouvé"
+                <p>Utilisateur non trouvé</p>
               )}
             </CardContent>
           </Card>

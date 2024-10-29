@@ -76,7 +76,8 @@ npx shadcn@latest add button alert input label checkbox card chart badge dropdow
 - Use the real-time chat to communicate with team members while working on projects.
 
 ## Roadmap
-- [ ] Implement OAuth for social logins (e.g., Google, GitHub).
+- [ ] Implement user authentication.
+- [ ] Protect routes for roles (user, project owner and admin)
 - [ ] Implement teams, projects and tasks creation.
 - [ ] Implement task filtering and sorting options.
 - [ ] Add a dashboard for team performance analytics.

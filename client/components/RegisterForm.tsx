@@ -49,7 +49,7 @@ export const RegisterForm = () => {
           <CardTitle>Register</CardTitle>
           <CardDescription>Enter your registration details</CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="flex flex-col gap-1">
           <div className="gap-1">
             <Label htmlFor="email">Email adress</Label>
             <Input
