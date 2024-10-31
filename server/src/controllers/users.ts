@@ -21,6 +21,7 @@ export const getAuthenticatedUser: RequestHandler = async (req, res, next) => {
   }
 };
 
+// SIGNUP
 interface SignUpBody {
   username?: string; // Le ? signifie que la propriété est facultative
   email?: string; // Etant donné que l'utilisateur peut ne pas fournir ces informations
@@ -69,6 +70,7 @@ export const signUp: RequestHandler<
   }
 };
 
+// LOGIN
 interface LoginBody {
   username?: string;
   password?: string;
@@ -112,6 +114,7 @@ export const login: RequestHandler<
   }
 };
 
+// LOGOUT
 export const logout: RequestHandler = (req, res, next) => {
   req.session.destroy((error) => {
     if (error) {
@@ -120,4 +123,26 @@ export const logout: RequestHandler = (req, res, next) => {
 
     res.status(204).send();
   });
+};
+
+// GET USER BY ID
+export const getUserById: RequestHandler<
+  { id: string },
+  unknown,
+  unknown,
+  unknown
+> = async (req, res, next) => {
+  const userId = req.params.id;
+
+  try {
+    const user = await UserModel.findById(userId).exec();
+
+    if (!user) {
+      throw createHttpError(404, "User not found");
+    }
+
+    res.status(200).json(user);
+  } catch (error) {
+    next(error);
+  }
 };

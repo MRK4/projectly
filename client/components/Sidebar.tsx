@@ -1,5 +1,13 @@
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
-
+import {
+  Users,
+  ChevronUp,
+  User2,
+  Home,
+  Folder,
+  Search,
+  Settings,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   Sidebar,
   SidebarContent,
@@ -13,41 +21,51 @@ import {
   SidebarFooter,
   SidebarSeparator,
 } from "@/components/ui/sidebar";
-import { Button } from "@/components/ui/button";
+import {
+  DropdownMenuTrigger,
+  DropdownMenu,
+  DropdownMenuItem,
+  DropdownMenuContent,
+} from "@/components/ui/dropdown-menu";
 import axiosInstance from "../lib/axiosInstance";
 import { useRouter } from "next/navigation";
 import { cp } from "fs";
+import Link from "next/link";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { useUser } from "@/context/UserContext";
+import { ThemeToggler } from "./ThemeToggler";
 
 // Menu items.
 const items = [
   {
-    title: "Home",
-    url: "#",
+    title: "Dashboard",
+    url: "/dashboard",
     icon: Home,
   },
   {
-    title: "Inbox",
-    url: "#",
-    icon: Inbox,
+    title: "Teams",
+    url: "/teams",
+    icon: Users,
   },
   {
-    title: "Calendar",
-    url: "#",
-    icon: Calendar,
-  },
-  {
-    title: "Search",
-    url: "#",
-    icon: Search,
-  },
-  {
-    title: "Settings",
-    url: "#",
-    icon: Settings,
+    title: "Projets",
+    url: "/projects",
+    icon: Folder,
   },
 ];
 
 export function AppSidebar() {
+  const { user, loading } = useUser();
   const router = useRouter();
 
   const signout = async () => {
@@ -60,39 +78,71 @@ export function AppSidebar() {
   };
 
   return (
-    <Sidebar>
-      <SidebarContent>
+    <Sidebar variant="floating" collapsible="offcanvas">
+      <SidebarContent className="bg-background justify-between overflow-hidden">
         <SidebarGroup>
-          <SidebarGroupLabel>Application</SidebarGroupLabel>
+          <SidebarGroupLabel>Projectly</SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu>
+            <SidebarMenu className="rounded-xl">
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <a href={item.url}>
+                    <Link href={item.url}>
                       <item.icon />
                       <span>{item.title}</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
+              <ThemeToggler />
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-        <SidebarSeparator />
-        <SidebarGroup>
-          <SidebarGroupLabel>Account</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <Button onClick={signout}>Sign out</Button>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-        <SidebarSeparator />
         <SidebarFooter>
-          <p>© 2021 Example Inc.</p>
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <SidebarMenuButton>
+                    <User2 /> {user?.username ?? "Guest"}
+                    <ChevronUp className="ml-auto" />
+                  </SidebarMenuButton>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  side="top"
+                  className="flex flex-col gap-1 w-[--radix-popper-anchor-width]"
+                >
+                  <DropdownMenuItem>
+                    <span>My account</span>
+                  </DropdownMenuItem>
+
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <Button className="w-full" variant={"destructive"}>
+                        Sign out
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>
+                          Are you sure you want to disconnect?
+                        </AlertDialogTitle>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction onClick={signout}>
+                          Disconnect
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </SidebarMenuItem>
+          </SidebarMenu>
+          <small className="w-full text-center text-neutral-500">
+            © 2021 Example Inc.
+          </small>
         </SidebarFooter>
       </SidebarContent>
     </Sidebar>

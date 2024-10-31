@@ -1,10 +1,11 @@
 import "dotenv/config";
 import express from "express";
-import userRoutes from "./routes/users";
 import session from "express-session";
 import env from "./util/validateEnv";
 import MongoStore from "connect-mongo";
 import cors from "cors";
+import userRoutes from "./routes/users";
+import teamRoutes from "./routes/teams";
 
 const app = express();
 
@@ -37,6 +38,7 @@ app.use(
 
 // Routes
 app.use("/api/users", userRoutes);
+app.use("/api/teams", teamRoutes);
 
 app.get("/api", (req, res) => {
   res.send("The API is working!");

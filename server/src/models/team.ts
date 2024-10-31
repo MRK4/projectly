@@ -5,6 +5,10 @@ const teamSchema = new Schema({
     type: String,
     required: true,
   },
+  description: {
+    type: String,
+    default: "",
+  },
   createdAt: {
     type: Date,
     default: Date.now,
@@ -12,6 +16,11 @@ const teamSchema = new Schema({
   updatedAt: {
     type: Date,
     default: Date.now,
+  },
+  members: {
+    type: Array,
+    ref: "User",
+    default: [],
   },
 });
 

@@ -40,14 +40,17 @@ npx shadcn@latest add button alert input label checkbox card chart badge dropdow
       ```bash
       npm install
       ```
-    - Create a `.env` file and add your environment variables (for example, database connection string, JWT secret):
+    - Create a `.env` by typing this command:
+      ```bash
+      cp .env.example .env
       ```
+      ```conf
       DATABASE_URL=mongodb://localhost:27017/projectly
       JWT_SECRET=your_jwt_secret
       ```
     - Start the server:
       ```bash
-      npm run dev
+      npm start
       ```
 
 3. **Frontend Setup**:
@@ -59,8 +62,11 @@ npx shadcn@latest add button alert input label checkbox card chart badge dropdow
       ```bash
       npm install
       ```
-    - Create a `.env.local` file for environment variables (e.g., API endpoint):
+    - Create a `.env.local` by typing:
+    - ```bash
+      cp .env.local.example .env.local
       ```
+      ```conf
       NEXT_PUBLIC_API_URL=http://localhost:5000
       ```
     - Start the development server:

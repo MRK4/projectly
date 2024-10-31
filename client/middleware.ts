@@ -1,15 +1,15 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-
-const isLoggedIn: boolean = false;
+import { protectedRoutes } from "./routes";
 
 export function middleware(req: NextRequest) {
-  let cookie = req.cookies.get("sid");
+  const cookie = req.cookies.get("sid"); // Vérifie la présence du cookie de session
+  const isAuthenticated = !!cookie; // Utilise le cookie comme indicateur d'authentification
+  const requestedPath = req.nextUrl.pathname;
 
-  // Si l'utilisateur n'est pas authentifié, redirige vers la page de connexion
-  if (!cookie && req.nextUrl.pathname.startsWith("/dashboard")) {
-    const loginUrl = new URL("/", req.url);
-    return NextResponse.redirect(loginUrl);
+  // Redirige si la route est protégée et l'utilisateur n'est pas authentifié
+  if (protectedRoutes.includes(requestedPath) && !isAuthenticated) {
+    return NextResponse.redirect(new URL("/", req.url));
   }
 
   return NextResponse.next();

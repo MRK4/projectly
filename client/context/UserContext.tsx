@@ -38,10 +38,6 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         const response = await axiosInstance.get<User>("/users/me");
         setUser(response.data);
       } catch (error) {
-        console.error(
-          "Erreur lors de la récupération de l'utilisateur:",
-          error
-        );
         setUser(null);
       } finally {
         setLoading(false);

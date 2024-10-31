@@ -1,4 +1,4 @@
-import { InferSchemaType, model, Schema, Types } from "mongoose";
+import { InferSchemaType, model, Schema } from "mongoose";
 
 const userSchema = new Schema({
   username: {
@@ -29,10 +29,10 @@ const userSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-  teamId: {
-    type: Types.ObjectId,
-    ref: "Team", // Référence à la collection des équipes
-    default: null,
+  role: {
+    type: String,
+    enum: ["user", "admin"],
+    default: "user",
   },
 });
 
