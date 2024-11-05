@@ -14,7 +14,7 @@ npx shadcn@latest add button alert input label checkbox card chart badge dropdow
 - **Database**: MongoDB
 - **Authentication**: JSON Web Tokens (JWT) & bcrypt for password hashing
 - **Styling**: TailwindCSS and Shadcn/ui
-- **Hosting**: Vercel
+- **Hosting**: Vercel for the Frontend and Render forthe Backend
 
 ## Features
 - **User Management**: User registration, login, and profile management.
